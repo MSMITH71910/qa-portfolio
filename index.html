@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Michael R. Smith — QA Engineer &amp; Python Developer</title>
+<meta name="description" content="QA Engineer &amp; Python Developer portfolio — automation frameworks, contract testing, and real bugs found in real applications.">
+<style>
+  :root {
+    --bg: #0d1117;
+    --card-bg: #161b22;
+    --accent: #00d4ff;
+    --accent-dim: #00d4ff33;
+    --green: #238636;
+    --red: #da3633;
+    --amber: #d29922;
+    --text: #c9d1d9;
+    --heading: #e6edf3;
+    --border: #30363d;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    background-image:
+      radial-gradient(circle at 20% 0%, #00d4ff08 0%, transparent 40%),
+      radial-gradient(circle at 90% 20%, #23863608 0%, transparent 40%),
+      repeating-linear-gradient(0deg, #ffffff03 0px, #ffffff03 1px, transparent 1px, transparent 2px);
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+
+  section {
+    padding: 96px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+
+  .eyebrow::before { content: "// "; color: var(--text); opacity: 0.5; }
+
+  h2 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    color: var(--heading);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .section-sub {
+    color: var(--text);
+    opacity: 0.75;
+    max-width: 640px;
+    margin-bottom: 48px;
+    font-size: 1.05rem;
+  }
+
+  /* ===== Header ===== */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-weight: 700;
+    color: var(--heading);
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px 2px var(--accent-dim);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    color: var(--text);
+    font-size: 0.92rem;
+    font-family: var(--mono);
+    padding: 4px 2px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  nav a:hover, nav a.active {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    nav ul { gap: 14px; font-size: 0.8rem; }
+    .nav-wrap { justify-content: center; text-align: center; }
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 96px;
+    text-align: left;
+  }
+
+  .hero .eyebrow { margin-bottom: 20px; }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    color: var(--heading);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+  }
+
+  .hero .role-line {
+    font-family: var(--mono);
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .hero .role-line .sep { color: var(--border); margin: 0 8px; }
+
+  .hero .tagline {
+    font-size: 1.15rem;
+    color: var(--text);
+    opacity: 0.85;
+    margin-bottom: 36px;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    padding: 13px 26px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #041016;
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 0 3px var(--accent-dim), 0 0 18px var(--accent-dim);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--heading);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .icon-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .icon-badge:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .icon-badge svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* ===== About ===== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 800px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent-dim), 0 0 24px -8px var(--accent-dim);
+    transform: translateY(-3px);
+  }
+
+  .about-card .icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .about-card h3 { color: var(--heading); font-size: 1.15rem; margin-bottom: 10px; }
+  .about-card p { font-size: 0.95rem; opacity: 0.85; }
+
+  /* ===== Projects ===== */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .project-grid { grid-template-columns: 1fr; }
+  }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card .icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .project-card h3 { color: var(--heading); font-size: 1.2rem; margin-bottom: 4px; }
+  .project-card .subtitle {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .project-card p { font-size: 0.92rem; opacity: 0.85; margin-bottom: 16px; flex-grow: 0; }
+
+  .highlight-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #00d4ff14;
+    color: var(--accent);
+    border: 1px solid #00d4ff40;
+    margin-bottom: 18px;
+    align-self: flex-start;
+  }
+
+  .tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+    margin-top: auto;
+  }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text);
+    opacity: 0.9;
+  }
+
+  .card-gh-link {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: var(--heading);
+    transition: border-color 0.2s, color 0.2s;
+    align-self: flex-start;
+  }
+
+  .card-gh-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== Bug Bounty ===== */
+  .bounty-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .bug-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .bug-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .bug-title-block h3 {
+    color: var(--heading);
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+  }
+
+  .bug-app {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--text);
+    opacity: 0.7;
+  }
+
+  .severity {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    padding: 6px 14px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .severity.high { background: #da363320; color: var(--red); border: 1px solid #da363355; }
+  .severity.medium { background: #d2992220; color: var(--amber); border: 1px solid #d2992255; }
+  .severity.low { background: #23863620; color: var(--green); border: 1px solid #23863655; }
+
+  .bug-summary { font-size: 0.95rem; opacity: 0.9; }
+
+  .bug-steps-label {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .code-block {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    background: #010409;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    color: #79c0ff;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    line-height: 1.7;
+  }
+
+  .code-block .prompt { color: var(--green); }
+
+  .bug-impact {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    border-left: 2px solid var(--accent);
+    padding-left: 14px;
+  }
+
+  .bug-impact strong { color: var(--heading); font-family: var(--mono); font-size: 0.82rem; }
+
+  /* ===== Skills ===== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  @media (max-width: 700px) {
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+
+  .skills-col h3 {
+    color: var(--heading);
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .skills-col h3::before {
+    content: ">";
+    color: var(--accent);
+    font-family: var(--mono);
+  }
+
+  .skills-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .skill-pill {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text);
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+
+  .skill-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* ===== Contact ===== */
+  .contact-section { text-align: center; }
+  .contact-section .section-sub { margin-left: auto; margin-right: auto; }
+
+  .contact-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    opacity: 0.6;
+  }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="logo">M. Smith <span style="color:var(--text);opacity:0.5;font-weight:400;">/qa</span></div>
+    <nav>
+      <ul>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#bounty" class="nav-link">Bug Bounty</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">01 — hero</span>
+  <h1>Michael R. <span>Smith</span></h1>
+  <div class="role-line">QA Engineer <span class="sep">|</span> Python Developer <span class="sep">|</span> CompTIA A+ Certified</div>
+  <p class="tagline">Automator. Collaborator. Explorer.</p>
+  <div class="cta-row">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="mailto:M.Smith71910@gmail.com" class="btn btn-secondary">Contact Me</a>
+  </div>
+  <div class="badge-row">
+    <a href="https://github.com/MSMITH71910" target="_blank" rel="noopener" class="icon-badge">
+      <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/michaelsmith-2b38b260" target="_blank" rel="noopener" class="icon-badge">
+      <svg viewBox="0 0 16 16"><path d="M0 1.15C0 .52.53 0 1.19 0h13.62C15.47 0 16 .52 16 1.15v13.7c0 .63-.53 1.15-1.19 1.15H1.19C.53 16 0 15.48 0 14.85V1.15zM4.75 13.4V6.14H2.4v7.26h2.35zM3.58 5.15c.82 0 1.33-.54 1.33-1.22-.02-.7-.51-1.22-1.31-1.22-.8 0-1.33.53-1.33 1.22 0 .68.51 1.22 1.3 1.22h.01zm3.6 8.25v-4.06c0-.22.02-.43.08-.59.18-.43.58-.88 1.26-.88.89 0 1.24.68 1.24 1.67v3.86h2.35V9.32c0-2.17-1.16-3.18-2.71-3.18-1.25 0-1.8.7-2.11 1.18h.02V6.14H7.16c.03.66 0 7.26 0 7.26h2.02z"/></svg>
+      LinkedIn
+    </a>
+  </div>
+</section>
+
+<section id="about" class="reveal">
+  <span class="eyebrow">02 — about</span>
+  <h2>The Three Hats Every Great QA Wears</h2>
+  <div class="about-grid">
+    <div class="card about-card">
+      <span class="icon">🤖</span>
+      <h3>The Automator</h3>
+      <p>I build frameworks that find bugs automatically, around the clock. Playwright, k6, Pact.js.</p>
+    </div>
+    <div class="card about-card">
+      <span class="icon">🤝</span>
+      <h3>The Collaborator</h3>
+      <p>I catch breaking changes before they reach staging. I build quality into every PR with contract tests and CI gates.</p>
+    </div>
+    <div class="card about-card">
+      <span class="icon">🔭</span>
+      <h3>The Explorer</h3>
+      <p>I find the bugs no automation will ever catch. Exploratory testing, edge cases, user empathy.</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="reveal">
+  <span class="eyebrow">03 — projects</span>
+  <h2>Featured QA Projects</h2>
+  <p class="section-sub">Real frameworks, real CI gates, real bugs found.</p>
+  <div class="project-grid">
+
+    <div class="card project-card">
+      <span class="icon">🐛</span>
+      <h3>Bug Hunter</h3>
+      <div class="subtitle">Hybrid E2E Automation Framework</div>
+      <p>Full Playwright + TypeScript framework testing SauceDemo. Network throttling (Slow 3G), API response mocking (500 error stub), visual regression (screenshot diffs), and parallel race condition detection across 4 concurrent browser sessions. Found a real race condition bug: cart badge desync at 40% reproducibility.</p>
+      <p><strong style="color:var(--heading);">Key Deliverable:</strong> Single command <code style="font-family:var(--mono);color:var(--accent);">npm run test:ci</code> runs everything headlessly and generates HTML report with screenshots/videos of failures.</p>
+      <span class="highlight-badge">Found Race Condition Bug (40% repro rate)</span>
+      <div class="tech-pills">
+        <span class="pill">Playwright</span>
+        <span class="pill">TypeScript</span>
+        <span class="pill">GitHub Actions</span>
+        <span class="pill">HTML Reporter</span>
+      </div>
+      <a href="https://github.com/MSMITH71910/qa-bug-hunter" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">🔄</span>
+      <h3>Shift-Left</h3>
+      <div class="subtitle">Consumer-Driven Contract Testing + CI Quality Gates</div>
+      <p>Pact.js consumer-driven contract tests between a frontend consumer and JSONPlaceholder API. Catches breaking API changes (field renames, type changes) before they reach staging. ESLint with security plugin runs on every PR. 80% coverage threshold enforced in CI. PR template with "Has contract test been updated?" checkbox.</p>
+      <p><strong style="color:var(--heading);">Key Deliverable:</strong> A PR where the contract test caught a backend field rename (email → emailAddress) instantly in CI — before it reached any environment.</p>
+      <span class="highlight-badge">Catches Breaking Changes Before Staging</span>
+      <div class="tech-pills">
+        <span class="pill">Pact.js</span>
+        <span class="pill">TypeScript</span>
+        <span class="pill">ESLint</span>
+        <span class="pill">Jest</span>
+        <span class="pill">GitHub Actions</span>
+      </div>
+      <a href="https://github.com/MSMITH71910/qa-shift-left" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+    </div>
+
+    <div class="card project-card">
+      <span class="icon">🔭</span>
+      <h3>Explorer</h3>
+      <div class="subtitle">Performance + Security + Accessibility</div>
+      <p>k6 load test simulating 100 concurrent users on a shopping cart flow with 5 threshold assertions (p95 &lt; 500ms). Lighthouse CI audit for security headers, performance, and accessibility. axe-core WCAG 2.1 AA accessibility audit. Found 2 blockers: missing CSP header and inaccessible burger menu button. Exploratory charter documented 3 edge cases no automation would find — including a $0 empty cart checkout bug.</p>
+      <p><strong style="color:var(--heading);">Key Deliverable:</strong> Single PDF "Production Readiness Report" with Red/Yellow/Green status for Functionality, Speed, Security, and UX.</p>
+      <span class="highlight-badge">Production Readiness Report: 2 Blockers Found</span>
+      <div class="tech-pills">
+        <span class="pill">k6</span>
+        <span class="pill">axe-core</span>
+        <span class="pill">Lighthouse CI</span>
+        <span class="pill">Playwright</span>
+        <span class="pill">GitHub Actions</span>
+      </div>
+      <a href="https://github.com/MSMITH71910/qa-explorer" target="_blank" rel="noopener" class="card-gh-link">↳ View on GitHub</a>
+    </div>
+
+  </div>
+</section>
+
+<section id="bounty" class="reveal">
+  <span class="eyebrow">04 — bug bounty</span>
+  <h2>Bug Bounty Wall</h2>
+  <p class="section-sub">Real defects found during manual and automated testing</p>
+  <div class="bounty-list">
+
+    <div class="card bug-card">
+      <div class="bug-head">
+        <div class="bug-title-block">
+          <h3>Cart Badge Race Condition</h3>
+          <div class="bug-app">App: SauceDemo (qa-bug-hunter)</div>
+        </div>
+        <span class="severity high">HIGH</span>
+      </div>
+      <p class="bug-summary">When 4 browser sessions simultaneously add the same item to cart, 1 session intermittently fails to update the badge. 40% reproducibility — non-deterministic, timing-dependent.</p>
+      <div class="bug-steps-label">Steps to Reproduce</div>
+      <div class="code-block"><span class="prompt">$</span> npm run test:race
+<span class="prompt">→</span> RC-001 exposes the issue</div>
+      <div class="bug-impact"><strong>IMPACT:</strong> Cart abandonment — user thinks add failed, clicks again, ends up with duplicate items.</div>
+    </div>
+
+    <div class="card bug-card">
+      <div class="bug-head">
+        <div class="bug-title-block">
+          <h3>Empty Cart $0 Checkout Success</h3>
+          <div class="bug-app">App: SauceDemo (qa-explorer exploratory session)</div>
+        </div>
+        <span class="severity high">HIGH</span>
+      </div>
+      <p class="bug-summary">A user can reach the order confirmation page with an empty cart. No guard exists. The system confirms a $0 order.</p>
+      <div class="bug-steps-label">Steps to Reproduce</div>
+      <div class="code-block"><span class="prompt">1.</span> Login
+<span class="prompt">2.</span> Navigate directly to /cart.html with no items
+<span class="prompt">3.</span> Click Checkout
+<span class="prompt">4.</span> Fill form
+<span class="prompt">5.</span> Click Finish → order confirmed</div>
+      <div class="bug-impact"><strong>IMPACT:</strong> Ghost orders in OMS, potential fraud surface in production apps with credit/discount logic.</div>
+    </div>
+
+    <div class="card bug-card">
+      <div class="bug-head">
+        <div class="bug-title-block">
+          <h3>Back Button Form State Desync</h3>
+          <div class="bug-app">App: SauceDemo (qa-explorer exploratory session)</div>
+        </div>
+        <span class="severity medium">MEDIUM</span>
+      </div>
+      <p class="bug-summary">During multi-step checkout, pressing browser Back and changing personal info values causes the Order Summary to reflect the ORIGINAL values — silently ignoring the update.</p>
+      <div class="bug-steps-label">Steps to Reproduce</div>
+      <div class="code-block"><span class="prompt">1.</span> Add item → checkout
+<span class="prompt">2.</span> Fill form → Continue
+<span class="prompt">3.</span> Press Back → change name → Continue
+<span class="prompt">→</span> Summary shows old name</div>
+      <div class="bug-impact"><strong>IMPACT:</strong> Orders shipped to wrong name. User has no indication their correction was ignored.</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <span class="eyebrow">05 — skills</span>
+  <h2>Technical QA Stack</h2>
+  <div class="skills-grid">
+    <div class="skills-col">
+      <h3>Automation &amp; Testing</h3>
+      <div class="skills-pills">
+        <span class="skill-pill">Playwright</span>
+        <span class="skill-pill">TypeScript</span>
+        <span class="skill-pill">k6</span>
+        <span class="skill-pill">Pact.js</span>
+        <span class="skill-pill">axe-core</span>
+        <span class="skill-pill">Lighthouse CI</span>
+        <span class="skill-pill">Selenium</span>
+        <span class="skill-pill">pytest</span>
+        <span class="skill-pill">Jest</span>
+      </div>
+    </div>
+    <div class="skills-col">
+      <h3>Tools &amp; CI/CD</h3>
+      <div class="skills-pills">
+        <span class="skill-pill">GitHub Actions</span>
+        <span class="skill-pill">Docker</span>
+        <span class="skill-pill">ESLint</span>
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">Django</span>
+        <span class="skill-pill">REST APIs</span>
+        <span class="skill-pill">Linux</span>
+        <span class="skill-pill">Git</span>
+        <span class="skill-pill">HTML/CSS/JS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="reveal contact-section">
+  <span class="eyebrow">06 — contact</span>
+  <h2>Let's Work Together</h2>
+  <p class="section-sub">I'm actively seeking remote QA Engineer or Python Developer roles. I'm ready to contribute on day one.</p>
+  <div class="contact-buttons">
+    <a href="mailto:M.Smith71910@gmail.com" class="btn btn-secondary">M.Smith71910@gmail.com</a>
+    <a href="https://github.com/MSMITH71910" target="_blank" rel="noopener" class="btn btn-secondary">github.com/MSMITH71910</a>
+    <a href="https://www.linkedin.com/in/michaelsmith-2b38b260" target="_blank" rel="noopener" class="btn btn-secondary">linkedin.com/in/michaelsmith-2b38b260</a>
+    <a href="https://smithdevlabs.com" target="_blank" rel="noopener" class="btn btn-secondary">smithdevlabs.com</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Michael R. Smith — Built with vanilla HTML/CSS/JS
+</footer>
+
+<script>
+(function () {
+  var navLinks = document.querySelectorAll('.nav-link');
+  var sections = Array.prototype.map.call(navLinks, function (link) {
+    return document.querySelector(link.getAttribute('href'));
+  });
+
+  function onScroll() {
+    var scrollPos = window.scrollY + 100;
+    var current = sections[0];
+    sections.forEach(function (sec) {
+      if (sec && sec.offsetTop <= scrollPos) current = sec;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.toggle('active', current && link.getAttribute('href') === '#' + current.id);
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var revealEls = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealEls.forEach(function (el) { observer.observe(el); });
+})();
+</script>
+
+</body>
+</html>

@@ -750,7 +750,10 @@
 <script>
 (function () {
   var navLinks = document.querySelectorAll('.nav-link');
-  var sections = Array.prototype.map.call(navLinks, function (link) {
+  var anchorLinks = Array.prototype.filter.call(navLinks, function (link) {
+    return link.getAttribute('href') && link.getAttribute('href').startsWith('#');
+  });
+  var sections = anchorLinks.map(function (link) {
     return document.querySelector(link.getAttribute('href'));
   });
 
@@ -760,7 +763,7 @@
     sections.forEach(function (sec) {
       if (sec && sec.offsetTop <= scrollPos) current = sec;
     });
-    navLinks.forEach(function (link) {
+    anchorLinks.forEach(function (link) {
       link.classList.toggle('active', current && link.getAttribute('href') === '#' + current.id);
     });
   }
